@@ -4,10 +4,6 @@
 #include <stdbool.h>
 #include <unistd.h>
 
-#define LOSS 0
-#define WIN 1
-#define CONTINUE 2
-
 void place_flag(board_t* board, int row, int col){
     board->board[row][col].isFlagged = !board->board[row][col].isFlagged;
 }
@@ -90,10 +86,10 @@ bool is_valid_move(board_t* board, int moveRow, int moveCol, int ROWS, int COLS)
     }
 }
 
-int check_game_finished(board_t* board, int ROWS, int COLS){
+int check_game_finished(board_t* board){
     int usedFields = 0;
-    for(int i = 0; i < ROWS; i++){
-        for(int j = 0; j < COLS; j++){
+    for(int i = 0; i < board->width; i++){
+        for(int j = 0; j < board->height; j++){
             if(board->board[i][j].isMine && board->board[i][j].isRevealed){
                 return LOSS;
             } else if(board->board[i][j].isRevealed || board->board[i][j].isFlagged){
@@ -101,7 +97,7 @@ int check_game_finished(board_t* board, int ROWS, int COLS){
             }
         }
     }
-    if(usedFields == (ROWS * COLS)-board->numOfMines){ //jeżeli liczba pól odkrytych i oznaczonych flagą jest równa liczbie pól na planszy - liczbie min
+    if(usedFields == (board->width * board->height)-board->numOfMines){ //jeżeli liczba pól odkrytych i oznaczonych flagą jest równa liczbie pól na planszy - liczbie min
         return WIN;
     } else {
         return CONTINUE;
@@ -109,12 +105,27 @@ int check_game_finished(board_t* board, int ROWS, int COLS){
 }
 
 
-void end_game(int result){
+void end_game(board_t* board, int result, char* playerName, difficulty_t difficulty){
     if(result == LOSS){
         printf("Przegrałeś! \n");
-        //TODOOOO
+        switch (difficulty){
+            case EASY:
+                board->score= -50;
+                break;
+            case MEDIUM:
+                board->score= -30;
+                break;
+            case HARD:
+                board->score= -10;
+                break;
+            default:
+                fprintf(stderr, "(!) Wynik niezapisany. \n");
+                board->score=0;
+                break;
+        }
     } else if(result == WIN){
         printf("Wygrałeś! \n");
-        //TODOOOO
     }
+    save_score(playerName, board->score, difficulty);
+    exit(0);
 }

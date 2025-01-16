@@ -16,12 +16,7 @@ II:
 
 
 
-16.01 16.00: 
-1. zakładam, że będą działać takie funkcje: 
-reveal_square()
-place_flag()
-reveal_adjacent_squares()
-display_board()
-reveal_all_mines()
-2. zakładam, że będzie coś typu stuct board_t, która przechowuje jako 2d lista struct field, które ma (row, col, isMine, isFlag, isRevealed, adjacentMines) - może być inaczej ofc
-3. nazwy funkcji są z podłogami, nazwy zmiennych są camelCasem
+TODO:
+- wczytywanie z pliku (ja nawet nie wiem o co chodzi XD)
+- jak nie trafisz w mine to nie odkrywa tak dużo pól jak powinno, tylko zawsze jedno pole, powinno odkrywać wszyskie pola która nie przylegają do żadnej miny na raz, a u nas może być, że dotyka do 0 min, a i tak nie odkryją się w około
+- błąd otwierania pliku z wynikami (dodać hadler na wypadek jak nie ma tego pliku)

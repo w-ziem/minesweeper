@@ -34,6 +34,14 @@ difficulty_t get_difficulty_from_user() {
 }
 
 
+void get_player_name(char* playerName){
+    printf("Podaj nazwę gracza (maksymalnie 20 znaków): ");
+    fgets(playerName, 20, stdin); //wczytuje nazwę gracza
+    playerName[strcspn(playerName, "\n")] = 0; //usuwa znak nowej linii na końcu
+}
+
+
+
 board_t* init_board(difficulty_t difficulty){
     board_t *board = malloc(sizeof(board_t));  // Alokujemy pamięć dla struktury board
     if (board == NULL) {
@@ -58,7 +66,10 @@ board_t* init_board(difficulty_t difficulty){
             board->numOfMines = 99;
             break;
         case CUSTOM:
-            int width, height, mines;
+            int width;
+            int height;
+            int mines;
+            printf("Podano niestandardową trudność. Wynik nie będzie naliczny.\n");
             printf("Podaj niestandardowe wymiary planszy: (szerokość wysokość liczba_min)");
             scanf("%d %d %d", &width, &height, &mines);
             board->width  = width;
@@ -132,28 +143,7 @@ int calculate_revealed_fields(board_t* board, int ROWS, int COLS) {
 }
 
 
-void calculate_score(difficulty_t difficulty, board_t* board){
-    int scoreMultiplier;
-    int revealedFields=calculate_revealed_fields(board, board->height, board->width);
-    switch (difficulty)
-    {
-    case EASY:
-        scoreMultiplier=1;
-        break;
-    case MEDIUM:
-        scoreMultiplier=2;
-        break;
-    case HARD:
-        scoreMultiplier=3;
-        break;
-    default:
-        scoreMultiplier=2;
-        break;
-    }
-    board->score=(revealedFields+1)*scoreMultiplier;
-}
-
-void display_board(board_t* board, difficulty_t difficulty){
+void display_board(board_t* board){
    // Wyświetl numerację kolumn
     printf("   "); // Odsunięcie dla numeracji wierszy
     for (int col = 0; col < board->width; col++) {
@@ -187,7 +177,7 @@ void display_board(board_t* board, difficulty_t difficulty){
         }
         printf("\n");
     }
-    printf("Twój wynik to: %d",board->score);
+    printf("Twój wynik to: %d\n",board->score);
 }
 void clear_screen() {
     // This works for Windows, for Unix/Linux, use system("clear");
