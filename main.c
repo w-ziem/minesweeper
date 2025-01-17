@@ -19,8 +19,9 @@ int main(int argc, char *argv[]){
     //Wyswietla poczatkowy stan planszy
     display_board(board);
 
-    //Powtawrza w nieskończoność
-    while(true){
+    //Powtawrza dopóki gra trwa
+    int game_status = CONTINUE;
+    while(game_status == CONTINUE){
         //Wyświetla wynik
         calculate_score(chosenDifficulty, board);
         //Obsługuje ruch
@@ -30,16 +31,17 @@ int main(int argc, char *argv[]){
         //Wyświetla odświeżoną plansze
         display_board(board);
         //Zmienna sprawdzająca czy gra nadal trwa
-        int game_status = check_game_finished(board);
-        if (game_status != CONTINUE) {
-            reveal_all_mines(board);
-            clear_screen();
-            display_board(board);
-            end_game(board, game_status, playerName, chosenDifficulty);
-            break;
-        }
+        game_status = check_game_finished(board);
     }
-    
+    //jeżeli wyjdzie z pętli to status gry wykazuuje, że gra się zakończyła
+
+    //wszystkie miny zostają odkryte
+    reveal_all_mines(board);
+    //Usuwa poprzednie wyświetlenie planszy i wyświetla plansze z odkrytymi minami
+    clear_screen();
+    display_board(board);
+    //Kończy grę i wyświetla wynik
+    end_game(board, game_status, playerName, chosenDifficulty);
 
     //Zwalnianie pamięci planszy
     free_board(board);

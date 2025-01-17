@@ -17,8 +17,8 @@ int reveal_square(board_t* board, int row, int col){
 }
 
 void reveal_all_mines(board_t* board){
-    for (int i=0; i<board->width; i++){
-        for (int j=0; j<board->height; j++){
+    for (int i = 0; i < board->width; i++){
+        for (int j = 0; j < board->height; j++){
             if (board->board[i][j].isMine){
                 board->board[i][j].isRevealed=true;
             }
@@ -28,11 +28,18 @@ void reveal_all_mines(board_t* board){
 
 
 int get_move(board_t* board) {
-    int row, col;
+    int row;
+    int col;
     char move; //f - flag r - reveal
     printf("Wprowadź ruch (akcja wiersz kolumna): \n");
     //pobiera ruch gracza
-    scanf("%c %d %d", &move, &row, &col);
+    scanf(" %c %d %d", &move, &row, &col);
+
+    //debug
+    printf("Wprowadzono ruch: row: %d col: %d \n", row, col);
+    printf("Przeczytane wymiary planszy %d %d \n", board->width, board->height);
+    //koniec debug
+
     //sprawdzanie poprawności wprowadzonego ruchu (czy jest w planszy)
     if(!is_valid_move(board, row, col)){
         printf("(!) Niedozwolony ruch. Spróbuj ponownie. \n");
@@ -80,7 +87,7 @@ int get_number_of_adjacent_mines(int row, int col, board_t* board, int ROWS, int
 }
 
 bool is_valid_move(board_t* board, int moveRow, int moveCol){
-    if(moveRow >= 0 && moveRow <= board->width && moveCol >= 0 && moveCol <= board->height){
+    if(moveRow >= 0 && moveRow <= board->height && moveCol >= 0 && moveCol <= board->width){
         return true;
     } else {
         return false;
@@ -89,8 +96,8 @@ bool is_valid_move(board_t* board, int moveRow, int moveCol){
 
 int check_game_finished(board_t* board){
     int usedFields = 0;
-    for(int i = 0; i < board->width; i++){
-        for(int j = 0; j < board->height; j++){
+    for(int i = 0; i < board->height; i++){
+        for(int j = 0; j < board->width; j++){
             if(board->board[i][j].isMine && board->board[i][j].isRevealed){
                 return LOSS;
             } else if(board->board[i][j].isRevealed || board->board[i][j].isFlagged){
