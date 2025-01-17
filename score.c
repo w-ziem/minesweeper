@@ -8,6 +8,7 @@
 void calculate_score(difficulty_t difficulty, board_t* board){
     int scoreMultiplier;
     int revealedFields=calculate_revealed_fields(board, board->height, board->width);
+    //Ustawianie odpowiednich mnożników
     switch (difficulty)
     {
     case EASY:

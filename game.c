@@ -129,8 +129,6 @@ void place_mines(board_t *board, int firstRow, int firstCol) {
 
 int calculate_revealed_fields(board_t* board, int ROWS, int COLS) {
     int revealedCount = 0;
-
-    // Iterate through the board and count the revealed fields
     for (int i = 0; i < ROWS; i++) {
         for (int j = 0; j < COLS; j++) {
             if (board->board[i][j].isRevealed) {
@@ -185,15 +183,15 @@ void clear_screen() {
 }
 
 void free_board(board_t* board) {
-    // Free each row of the 2D array
+    //Zwalnianie pamięci dla każdego wiersza
     for (int i = 0; i < board->height; i++) {
         free(board->board[i]);
     }
     
-    // Free the main array of pointers
+    //Zwalnianie głównej tablicy 2d
     free(board->board);
     
-    // Reset the board pointer to NULL to avoid dangling pointer
+    //Ustawienie wkaźnika na NULL
     board->board = NULL;
 }
 

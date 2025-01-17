@@ -4,11 +4,11 @@
 #include <stdbool.h>
 
 typedef struct field_t{
-    int row;
-    int col;
-    bool isMine;
-    bool isFlagged;
-    bool isRevealed;
+    int row; //Wiersz do którego nalezy pole
+    int col; //Kolumna do ktorej nalezy pole
+    bool isMine; //Czy pole jest miną
+    bool isFlagged; //Czy pole jest oflagowane
+    bool isRevealed; //Czy pole jest odkryte
 
 }field_t;
 
@@ -21,11 +21,12 @@ typedef struct board_t {
     int score; //Wynik gracza
 }board_t;
 
+//Doostępne trudności gry
 typedef enum {
     EASY,
     MEDIUM,
     HARD,
-    CUSTOM
+    CUSTOM //Można ustawić własny rozmiar planszy i wybrać liczbe min
 } difficulty_t;
 
 difficulty_t get_difficulty_from_user(); //ustawia trudność gry (domyślnie na średnią)

@@ -18,5 +18,6 @@ II:
 
 TODO:
 - wczytywanie z pliku (ja nawet nie wiem o co chodzi XD)
-- jak nie trafisz w mine to nie odkrywa tak dużo pól jak powinno, tylko zawsze jedno pole, powinno odkrywać wszyskie pola która nie przylegają do żadnej miny na raz, a u nas może być, że dotyka do 0 min, a i tak nie odkryją się w około
+- [Ja to ogarne] jak nie trafisz w mine to nie odkrywa tak dużo pól jak powinno, tylko zawsze jedno pole, powinno odkrywać wszyskie pola która nie przylegają do żadnej miny na raz, a u nas może być, że dotyka do 0 min, a i tak nie odkryją się w około
+- w mainie tego while ktory jest nieskonczony mozna by zrobic while gamestatus==continue (chyba) i lepiej by to wygladalo kosmetycznie
 - błąd otwierania pliku z wynikami (dodać hadler na wypadek jak nie ma tego pliku)
