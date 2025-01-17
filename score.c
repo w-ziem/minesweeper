@@ -37,6 +37,7 @@ void save_score(char* playerName, int score){
     // otwiera plik z wynikami
     file = fopen(filename, "r+");
     if (file == NULL) {
+        goto new_database;
         fprintf(stderr, "(!) Nie udało się otworzyć pliku %s\n", filename);
         return;
     }
@@ -71,9 +72,16 @@ void save_score(char* playerName, int score){
         fprintf(tempFile, "%s %d\n", playerName, score);
     }
 
+    //gdy nie ma jeszcze pliku z bazą danych graczy tworzy nowy
+    new_database:
+        printf("(!) Brak pliku z wynikami. Tworzenie nowego pliku.\n");
+        FILE* new_file = fopen(filename, "w");
+        fprintf(new_file, "%s %d\n", playerName, score);
+        fclose(new_file);
+        return;
     fclose(file);
     fclose(tempFile);
-
+    
     // usuwa stary plik z wynikami i zmienia nazwę pliku pomocniczego na nazwę pliku z wynikami
     remove(filename);
     rename(tempFilename, filename);
@@ -109,7 +117,6 @@ void print_top_scores(void) {
         count++;
     }
     fclose(file);
-
     // sortowanie wyników
     for (int i = 0; i < count - 1; i++) {
         for (int j = i + 1; j < count; j++) {
@@ -120,7 +127,6 @@ void print_top_scores(void) {
             }
         }
     }
-
     // wyświetlanie wyników
     printf("5 Najlepszych graczy:\n");
     for (int i = 0; i < count && i < 5; i++) {

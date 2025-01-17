@@ -36,7 +36,6 @@ int main(int argc, char *argv[]){
             clear_screen();
             display_board(board);
             end_game(board, game_status, playerName, chosenDifficulty);
-            print_top_scores();
             break;
         }
     }

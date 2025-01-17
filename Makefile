@@ -12,3 +12,9 @@ engine.o: engine.c engine.h score.h
 
 score.o: score.c score.h
 	gcc -c score.c -Wextra -Wall -pedantic
+
+
+
+.phony: clean
+clean:
+	rm -f *.o game

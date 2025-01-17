@@ -1,4 +1,5 @@
 #include "engine.h"
+#include "score.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -33,7 +34,7 @@ int get_move(board_t* board) {
     //pobiera ruch gracza
     scanf("%c %d %d", &move, &row, &col);
     //sprawdzanie poprawności wprowadzonego ruchu (czy jest w planszy)
-    if(!is_valid_move(board, row, col, board->height, board->width)){
+    if(!is_valid_move(board, row, col)){
         printf("(!) Niedozwolony ruch. Spróbuj ponownie. \n");
         get_move(board);
     } else if(move == 'f'){ 
@@ -78,8 +79,8 @@ int get_number_of_adjacent_mines(int row, int col, board_t* board, int ROWS, int
     return count;
 }
 
-bool is_valid_move(board_t* board, int moveRow, int moveCol, int ROWS, int COLS){
-    if(moveRow >= 0 && moveRow <= ROWS && moveCol >= 0 && moveCol <= COLS){
+bool is_valid_move(board_t* board, int moveRow, int moveCol){
+    if(moveRow >= 0 && moveRow <= board->width && moveCol >= 0 && moveCol <= board->height){
         return true;
     } else {
         return false;
@@ -126,6 +127,6 @@ void end_game(board_t* board, int result, char* playerName, difficulty_t difficu
     } else if(result == WIN){
         printf("Wygrałeś! \n");
     }
-    save_score(playerName, board->score, difficulty);
-    exit(0);
+    save_score(playerName, board->score);
+    print_top_scores();
 }
