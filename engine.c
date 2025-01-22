@@ -8,9 +8,18 @@
 void place_flag(board_t* board, int row, int col){
     board->board[row][col].isFlagged = !board->board[row][col].isFlagged;
 }
-int reveal_square(board_t* board, int row, int col){
+void reveal_squares(board_t* board, int row, int col){
     if (board->board[row][col].isRevealed==false){
-        board->board[row][col].isRevealed=true;
+        if(get_number_of_adjacent_mines(row, col, board) == 0){
+            //jeżeli obecn pole nie sąsiaduje z minami to rekurencyjnie odkrywanie są sąsiedzi
+            for (int i = -1; i <= 1; i++) {
+                for (int j = -1; j <= 1; j++) {
+                    if (i != 0 || j != 0) { // Pomijamy bieżące pole
+                        reveal_squares(board, row + i, col + j); // ruchy góra dół zapewnia i, ruchy lewo prawo zapewnia j
+                    }
+                 }
+            }
+        }
     }else {
         printf("To pole jest już odkryte. Odkryj pole zakryte lub oflagowane.\n");
     }
@@ -27,7 +36,7 @@ void reveal_all_mines(board_t* board){
 }
 
 
-int get_move(board_t* board) {
+void handle_move(board_t* board) {
     int row;
     int col;
     char move; //f - flag r - reveal
@@ -43,25 +52,28 @@ int get_move(board_t* board) {
     //sprawdzanie poprawności wprowadzonego ruchu (czy jest w planszy)
     if(!is_valid_move(board, row, col)){
         printf("(!) Niedozwolony ruch. Spróbuj ponownie. \n");
-        get_move(board);
+        handle_move(board);
     } else if(move == 'f'){ 
         place_flag(board, row, col); 
     } else if(move == 'r'){
-        reveal_square(board, row, col);
+        if(board->areMinesGenerated){
+            reveal_squares(board, row, col);
+        } 
+        //jeżeli miny nie są wygenerowane, to przed odkryciem pól, ustawiane są miny, omijając pierwsze pole
+        else{
+            place_mines(board, row, col);
+            reveal_squares(board, row, col);
+        }
     } 
+
     //błędnie wprowadzony ruch
     else { //
         printf("(!) Niedozwolony ruch. Użyj f- flaga, lub r - odsłoń \n");
-        get_move(board);
-    }
-    //Wygenerowanie min jeśli już nie są wygenerowane
-    if (!board->areMinesGenerated) {
-        place_mines(board, row, col);
-        printf("Wygenerowano miny! \n");
+        handle_move(board);
     }
 }
 
-int get_number_of_adjacent_mines(int row, int col, board_t* board, int ROWS, int COLS) {
+int get_number_of_adjacent_mines(int row, int col, board_t* board) {
     int count = 0;
     // Loop through the 8 neighboring cells
     for (int i = -1; i <= 1; i++) {
@@ -75,7 +87,7 @@ int get_number_of_adjacent_mines(int row, int col, board_t* board, int ROWS, int
             }
 
             // Check if the neighboring cell is within bounds
-            if (newRow >= 0 && newRow < ROWS && newCol >= 0 && newCol < COLS) {
+            if (newRow >= 0 && newRow < board->height && newCol >= 0 && newCol < board->width) {
                 // Check if the neighboring cell is a mine
                 if (board->board[newRow][newCol].isMine) {
                     count++;

@@ -4,8 +4,8 @@
 #include "engine.h"
 #include "game.h"
 #include "score.h"
-
-int main(int argc, char *argv[]){
+//int argc, char *argv[] na razie nam niepotrzebne
+int main(){
     //Ustawienia generatora losowego
     srand(time(NULL)); 
     //Ustawienie maksymalnej wielkości nicku gracza
@@ -17,15 +17,17 @@ int main(int argc, char *argv[]){
     //Inicjalizuje plansze i dobiera jej wielkość
     board_t* board = init_board(chosenDifficulty);
     //Wyswietla poczatkowy stan planszy
+    clear_screen();
     display_board(board);
 
     //Powtawrza dopóki gra trwa
     int game_status = CONTINUE;
+        
     while(game_status == CONTINUE){
         //Wyświetla wynik
         calculate_score(chosenDifficulty, board);
         //Obsługuje ruch
-        get_move(board);
+        handle_move(board);
         //Usuwa poprzednie wyświetlenie planszy
         clear_screen();
         //Wyświetla odświeżoną plansze

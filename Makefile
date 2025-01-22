@@ -1,5 +1,6 @@
 a.out: main.o engine.o game.o score.o
 	gcc main.o engine.o game.o score.o -Wextra -Wall -pedantic -o game
+	touch scores.txt
 
 main.o: main.c game.h engine.h score.h
 	gcc -c main.c -Wextra -Wall -pedantic
@@ -17,4 +18,4 @@ score.o: score.c score.h
 
 .phony: clean
 clean:
-	rm -f *.o game
+	rm -f *.o game scores.txt

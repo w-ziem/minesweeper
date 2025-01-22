@@ -35,13 +35,8 @@ void save_score(char* playerName, int score){
     FILE *file;
     char *filename = "scores.txt";
     // otwiera plik z wynikami
-    file = fopen(filename, "r+");
-    if (file == NULL) {
-        goto new_database;
-        fprintf(stderr, "(!) Nie udało się otworzyć pliku %s\n", filename);
-        return;
-    }
-
+    file = fopen(filename, "r");
+ 
     // tworzy plik pomocniczy, gdzie będzie zapisywał wyniki
     char line[256];
     char tempFilename[] = "temp_scores.txt";
@@ -51,6 +46,8 @@ void save_score(char* playerName, int score){
         fclose(file);
         return;
     }
+
+
 
     //przeszukuje plik z wynikami w celu znalezienia wyniku dla aktualnego gracza
     int found = 0;
@@ -64,6 +61,8 @@ void save_score(char* playerName, int score){
             newScore = existingScore + score;
             found = 1;
             fprintf(tempFile, "%s %d\n", existingPlayer, newScore);
+        } else{
+            fprintf(tempFile, "%s %d", existingPlayer, existingScore);
         }
     }
 
@@ -72,13 +71,6 @@ void save_score(char* playerName, int score){
         fprintf(tempFile, "%s %d\n", playerName, score);
     }
 
-    //gdy nie ma jeszcze pliku z bazą danych graczy tworzy nowy
-    new_database:
-        printf("(!) Brak pliku z wynikami. Tworzenie nowego pliku.\n");
-        FILE* new_file = fopen(filename, "w");
-        fprintf(new_file, "%s %d\n", playerName, score);
-        fclose(new_file);
-        return;
     fclose(file);
     fclose(tempFile);
     

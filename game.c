@@ -43,6 +43,7 @@ void get_player_name(char* playerName){
 
 
 board_t* init_board(difficulty_t difficulty){
+    int width, height, mines;
     board_t *board = malloc(sizeof(board_t));  // Alokujemy pamięć dla struktury board
     if (board == NULL) {
         // Obsługa błędu alokacji pamięci
@@ -66,9 +67,6 @@ board_t* init_board(difficulty_t difficulty){
             board->numOfMines = 99;
             break;
         case CUSTOM:
-            int width;
-            int height;
-            int mines;
             printf("Podano niestandardową trudność. Wynik nie będzie naliczny.\n");
             printf("Podaj niestandardowe wymiary planszy: (szerokość wysokość liczba_min)");
             scanf("%d %d %d", &width, &height, &mines);
@@ -164,7 +162,7 @@ void display_board(board_t* board){
                 if (board->board[row][col].isMine) {
                     printf(" X "); // Pole z miną
                 } else {
-                    int adjucentMines=get_number_of_adjacent_mines(row,col,board,board->height,board->width);
+                    int adjucentMines=get_number_of_adjacent_mines(row,col,board);
                     printf(" %d ",adjucentMines); // Odsłonięte pole bez miny
                 }
             } else if (board->board[row][col].isFlagged) {
