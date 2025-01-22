@@ -8,22 +8,35 @@
 void place_flag(board_t* board, int row, int col){
     board->board[row][col].isFlagged = !board->board[row][col].isFlagged;
 }
+
+
 void reveal_squares(board_t* board, int row, int col){
-    if (board->board[row][col].isRevealed==false){
-        if(get_number_of_adjacent_mines(row, col, board) == 0){
-            //jeżeli obecn pole nie sąsiaduje z minami to rekurencyjnie odkrywanie są sąsiedzi
-            for (int i = -1; i <= 1; i++) {
-                for (int j = -1; j <= 1; j++) {
-                    if (i != 0 || j != 0) { // Pomijamy bieżące pole
-                        reveal_squares(board, row + i, col + j); // ruchy góra dół zapewnia i, ruchy lewo prawo zapewnia j
-                    }
-                 }
-            }
-        }
-    }else {
-        printf("To pole jest już odkryte. Odkryj pole zakryte lub oflagowane.\n");
+    // Sprawdź, czy pole jest w granicach planszy i czy nie jest już odkryte
+    if (!is_valid_move(board, row, col) || board->board[row][col].isRevealed) {
+        return;
     }
+
+    // Odkryj bieżące pole
+    board->board[row][col].isRevealed = true;
+
+    // Jeśli bieżące pole ma sąsiadujące miny, zakończ
+    if (get_number_of_adjacent_mines(row, col, board) >  0) {
+        return;
+    }
+
+    //jeżeli obecn pole nie sąsiaduje z minami to rekurencyjnie odkrywanie są sąsiedzi
+    if(get_number_of_adjacent_mines(row, col, board) == 0){
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                if ((i != 0 || j != 0) && is_valid_move(board, row+i, row+j)) { // Pomijamy bieżące pole
+                    reveal_squares(board, row + i, col + j); // ruchy góra dół zapewnia i, ruchy lewo prawo zapewnia j
+                }
+                }
+        }
+    }
+    
 }
+
 
 void reveal_all_mines(board_t* board){
     for (int i = 0; i < board->width; i++){
@@ -53,7 +66,10 @@ void handle_move(board_t* board) {
     if(!is_valid_move(board, row, col)){
         printf("(!) Niedozwolony ruch. Spróbuj ponownie. \n");
         handle_move(board);
-    } else if(move == 'f'){ 
+    } else if (board->board[row][col].isRevealed == true || board->board[row][col].isFlagged == true){
+        printf("To pole jest już odkryte. Odkryj pole zakryte lub oflagowane.\n");
+        handle_move(board);
+    }else if(move == 'f'){ 
         place_flag(board, row, col); 
     } else if(move == 'r'){
         if(board->areMinesGenerated){
