@@ -1,5 +1,5 @@
 a.out: main.o engine.o game.o score.o
-	gcc main.o engine.o game.o score.o -Wextra -Wall -pedantic -o game
+	gcc main.o engine.o game.o score.o -Wextra -Wall -pedantic -o game 
 	touch scores.txt
 
 main.o: main.c game.h engine.h score.h

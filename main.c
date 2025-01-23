@@ -42,11 +42,8 @@ int main(){
     //Usuwa poprzednie wyświetlenie planszy i wyświetla plansze z odkrytymi minami
     clear_screen();
     display_board(board);
-    //Kończy grę i wyświetla wynik
+    //Kończy grę i wyświetla wynik oraz zwalnia zaalokowaną pamięć
     end_game(board, game_status, playerName, chosenDifficulty);
-
-    //Zwalnianie pamięci planszy
-    free_board(board);
 
     return EXIT_SUCCESS;
 }

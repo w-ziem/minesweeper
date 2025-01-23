@@ -189,8 +189,8 @@ void free_board(board_t* board) {
     //Zwalnianie głównej tablicy 2d
     free(board->board);
     
-    //Ustawienie wkaźnika na NULL
-    board->board = NULL;
+    //Zwalnianie pamięci struktury board
+    free(board);
 }
 
 

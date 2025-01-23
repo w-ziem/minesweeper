@@ -16,31 +16,30 @@ void reveal_squares(board_t* board, int row, int col){
         return;
     }
 
-    // Odkryj bieżące pole
+    // Odkryj bieżące poles
     board->board[row][col].isRevealed = true;
 
     // Jeśli bieżące pole ma sąsiadujące miny, zakończ
     if (get_number_of_adjacent_mines(row, col, board) >  0) {
         return;
-    }
+    } 
 
     //jeżeli obecn pole nie sąsiaduje z minami to rekurencyjnie odkrywanie są sąsiedzi
-    if(get_number_of_adjacent_mines(row, col, board) == 0){
-        for (int i = -1; i <= 1; i++) {
-            for (int j = -1; j <= 1; j++) {
-                if ((i != 0 || j != 0) && is_valid_move(board, row+i, row+j)) { // Pomijamy bieżące pole
-                    reveal_squares(board, row + i, col + j); // ruchy góra dół zapewnia i, ruchy lewo prawo zapewnia j
-                }
-                }
-        }
+    for (int i = -1; i <= 1; i++) {
+        for (int j = -1; j <= 1; j++) {
+            if ((i != 0 || j != 0) && is_valid_move(board, row+i, row+j)) { // Pomijamy bieżące pole
+                reveal_squares(board, row + i, col + j); // ruchy góra dół zapewnia i, ruchy lewo prawo zapewnia j
+            }
+            }
     }
+
     
 }
 
 
 void reveal_all_mines(board_t* board){
-    for (int i = 0; i < board->width; i++){
-        for (int j = 0; j < board->height; j++){
+    for (int i = 0; i < board->height; i++){
+        for (int j = 0; j < board->width; j++){
             if (board->board[i][j].isMine){
                 board->board[i][j].isRevealed=true;
             }
@@ -59,7 +58,7 @@ void handle_move(board_t* board) {
 
     //debug
     printf("Wprowadzono ruch: row: %d col: %d \n", row, col);
-    printf("Przeczytane wymiary planszy %d %d \n", board->width, board->height);
+    printf("Przeczytane wymiary planszy %d %d \n", board->height, board->width);
     //koniec debug
 
     //sprawdzanie poprawności wprowadzonego ruchu (czy jest w planszy)
@@ -72,7 +71,7 @@ void handle_move(board_t* board) {
     }else if(move == 'f'){ 
         place_flag(board, row, col); 
     } else if(move == 'r'){
-        if(board->areMinesGenerated){
+        if(board->areMinesGenerated == true){
             reveal_squares(board, row, col);
         } 
         //jeżeli miny nie są wygenerowane, to przed odkryciem pól, ustawiane są miny, omijając pierwsze pole
@@ -115,7 +114,7 @@ int get_number_of_adjacent_mines(int row, int col, board_t* board) {
 }
 
 bool is_valid_move(board_t* board, int moveRow, int moveCol){
-    if(moveRow >= 0 && moveRow <= board->height && moveCol >= 0 && moveCol <= board->width){
+    if(moveRow >= 0 && moveRow < board->height && moveCol >= 0 && moveCol < board->width){
         return true;
     } else {
         return false;
@@ -157,11 +156,15 @@ void end_game(board_t* board, int result, char* playerName, difficulty_t difficu
             default:
                 fprintf(stderr, "(!) Wynik niezapisany. \n");
                 board->score=0;
-                break;
+                return;
         }
     } else if(result == WIN){
         printf("Wygrałeś! \n");
     }
     save_score(playerName, board->score);
     print_top_scores();
+    //Zwalnianie pamięci planszy
+    free_board(board);
+
 }
+

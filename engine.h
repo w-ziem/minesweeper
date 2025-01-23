@@ -21,5 +21,4 @@ void reveal_all_mines(board_t* board); // odsłania wszystkie miny
 void reveal_adjacent_squares(board_t* board, int row, int col);
 
 
-
 #endif // GAME_H

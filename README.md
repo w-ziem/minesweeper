@@ -19,8 +19,7 @@ II:
 TODO:
 - wczytywanie z pliku (ja nawet nie wiem o co chodzi XD)
 - [Ja to ogarne] jak nie trafisz w mine to nie odkrywa tak dużo pól jak powinno, tylko zawsze jedno pole, powinno odkrywać wszyskie pola która nie przylegają do żadnej miny na raz, a u nas może być, że dotyka do 0 min, a i tak nie odkryją się w około - FUNKCJA REVEAL_SQUARES
-DONE - zawsze tworzy się nowy plik - zawsze rzuca bład z lini 77 w score.c 
-DONE - game 129 linijka
+
 
 FIXME:
-![alt text](image.png)
+![alt text](image-2.png) -> start gry hard, chyba troche malo punktow XD, zero sie powinno wyswietlac chyba
