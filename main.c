@@ -4,6 +4,7 @@
 #include "engine.h"
 #include "game.h"
 #include "score.h"
+#include "board.h"
 //int argc, char *argv[] na razie nam niepotrzebne
 int main(){
     //Ustawienia generatora losowego

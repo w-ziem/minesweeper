@@ -1,5 +1,6 @@
 #include "engine.h"
 #include "score.h"
+#include "board.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -36,16 +37,6 @@ void reveal_squares(board_t* board, int row, int col){
     
 }
 
-
-void reveal_all_mines(board_t* board){
-    for (int i = 0; i < board->height; i++){
-        for (int j = 0; j < board->width; j++){
-            if (board->board[i][j].isMine){
-                board->board[i][j].isRevealed=true;
-            }
-        }
-    }
-}
 
 
 void handle_move(board_t* board) {

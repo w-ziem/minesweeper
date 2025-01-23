@@ -1,9 +1,9 @@
-//zadaniami silnika gry są pobieranie ruchu, wykonywanie go (odsłanianie pola, ustawianie flag, sprawdzanie wygranej i przegranej)
+#include <stdbool.h>
+#include "game.h"
+#include "board.h"
 
 #ifndef ENGINE_H
 #define ENGINE_H
-#include <stdbool.h>
-#include "game.h"
 
 #define LOSS 0
 #define WIN 1
@@ -17,8 +17,6 @@ int check_game_finished(board_t* board); // sprawdza czy wszystkie pola bez min 
 void end_game(board_t* board, int result, char* playerName, difficulty_t difficulty); // kończy grę i wyświetla wynik
 void place_flag(board_t* board, int row, int col); // ustawia flagę na danym polu
 void reveal_squares(board_t* board, int row, int col); // odsłania pole
-void reveal_all_mines(board_t* board); // odsłania wszystkie miny
-void reveal_adjacent_squares(board_t* board, int row, int col);
 
 
 #endif // GAME_H
