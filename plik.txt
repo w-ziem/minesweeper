@@ -1,0 +1,6 @@
+plikczooooor
+custom
+3 3 6
+r 1 2 
+r 2 0
+r 0 1

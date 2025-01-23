@@ -4,49 +4,57 @@
 #include "engine.h"
 #include "game.h"
 #include "score.h"
-//int argc, char *argv[] na razie nam niepotrzebne
-int main(){
-    //Ustawienia generatora losowego
-    srand(time(NULL)); 
-    //Ustawienie maksymalnej wielkości nicku gracza
-    char playerName[20];
-    //Wczytuje nick wybrany przez gracza
-    get_player_name(playerName);
-    //Wczytuje trudność wybraną przez użytkownika
-    difficulty_t chosenDifficulty = get_difficulty_from_user();
-    //Inicjalizuje plansze i dobiera jej wielkość
-    board_t* board = init_board(chosenDifficulty);
-    //Wyswietla poczatkowy stan planszy
-    clear_screen();
-    display_board(board);
+#include "readingFromFile.h"
 
-    //Powtawrza dopóki gra trwa
-    int game_status = CONTINUE;
-        
-    while(game_status == CONTINUE){
-        //Wyświetla wynik
-        calculate_score(chosenDifficulty, board);
-        //Obsługuje ruch
-        handle_move(board);
-        //Usuwa poprzednie wyświetlenie planszy
+// Funkcja główna programu
+int main(int argc, char** argv) {
+    srand(time(NULL));  // Inicjalizacja generatora liczb losowych
+
+    char playerName[20]; // Tablica na nazwę gracza
+
+    if (argc > 1) {  
+        // Jeśli podano argument z plikiem wejściowym, wczytaj grę z pliku
+        board_t* board;  // Wskaźnik na strukturę planszy
+        read_game_from_file(argv[1], &board, playerName); // Wczytanie gry z pliku
+    } else {
+        // Jeśli nie podano pliku, rozpocznij nową grę
+        get_player_name(playerName);  // Pobranie nazwy gracza
+
+        // Pobranie wybranego poziomu trudności od użytkownika
+        difficulty_t chosenDifficulty = get_difficulty_from_user();
+
+        // Inicjalizacja planszy na podstawie wybranego poziomu trudności
+        board_t* board = init_board(chosenDifficulty);
+
+        clear_screen(); // Wyczyszczenie ekranu konsoli
+        display_board(board); // Wyświetlenie początkowego stanu planszy
+
+        // Główna pętla gry
+        int game_status = CONTINUE; // Status gry (kontynuacja)
+
+        while (game_status == CONTINUE) {
+            // Obliczanie i wyświetlanie wyniku gracza
+            calculate_score(chosenDifficulty, board);
+            // Obsługa ruchu gracza
+            handle_move(board);
+            // Czyszczenie ekranu i aktualizacja planszy
+            clear_screen();
+            display_board(board);
+            // Sprawdzanie, czy gra się zakończyła
+            game_status = check_game_finished(board);
+        }
+
+        // Odkrycie wszystkich min po zakończeniu gry
+        reveal_all_mines(board);
         clear_screen();
-        //Wyświetla odświeżoną plansze
         display_board(board);
-        //Zmienna sprawdzająca czy gra nadal trwa
-        game_status = check_game_finished(board);
+
+        // Zakończenie gry i wyświetlenie wyniku
+        end_game(board, game_status, playerName, chosenDifficulty);
+
+        // Zwolnienie pamięci używanej przez planszę
+        free_board(board);
     }
-    //jeżeli wyjdzie z pętli to status gry wykazuuje, że gra się zakończyła
 
-    //wszystkie miny zostają odkryte
-    reveal_all_mines(board);
-    //Usuwa poprzednie wyświetlenie planszy i wyświetla plansze z odkrytymi minami
-    clear_screen();
-    display_board(board);
-    //Kończy grę i wyświetla wynik
-    end_game(board, game_status, playerName, chosenDifficulty);
-
-    //Zwalnianie pamięci planszy
-    free_board(board);
-
-    return EXIT_SUCCESS;
+    return EXIT_SUCCESS; // Program zakończył się pomyślnie
 }

@@ -80,9 +80,9 @@ board_t* init_board(difficulty_t difficulty){
             board->height = 16;
             board->numOfMines = 10;
             break;
-        board->score = 0;
+        
     }
-
+    board->score = 0;
     board->areMinesGenerated = false;
     //Alokacja pamięci dla pól
     board->board = malloc(board->height * sizeof(field_t*));

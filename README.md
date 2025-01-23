@@ -22,5 +22,7 @@ TODO:
 DONE - zawsze tworzy się nowy plik - zawsze rzuca bład z lini 77 w score.c 
 DONE - game 129 linijka
 
+TODO: Linijka 139 w readingFromFile - z jakiegos powodu zatrzymuje sie na pierwszym ruchu i dalej nie czyta
+
 FIXME:
 ![alt text](image.png)
