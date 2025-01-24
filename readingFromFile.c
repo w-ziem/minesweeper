@@ -159,4 +159,6 @@ int read_game_from_file(const char* filename, board_t* board, char* player_name)
     }
 
     fclose(file); // Zamknięcie pliku po zakończeniu odczytu
+
+    return 0; //funkcja zakończona sukcesem
 }

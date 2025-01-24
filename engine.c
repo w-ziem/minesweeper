@@ -81,20 +81,20 @@ void handle_move(board_t* board) {
 
 int get_number_of_adjacent_mines(int row, int col, board_t* board) {
     int count = 0;
-    // Loop through the 8 neighboring cells
+    // Pętla przechodząca po 8 sąsiadach wokół danego pola
     for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j++) {
             int newRow = row + i;
             int newCol = col + j;
 
-            // Skip the current cell (row, col)
+            // obecna komórka jest pomijana (row, col)
             if (i == 0 && j == 0) {
                 continue;
             }
 
-            // Check if the neighboring cell is within bounds
+            // Sprawdzanie czy komórka (sąsiad) jest w granicach
             if (newRow >= 0 && newRow < board->height && newCol >= 0 && newCol < board->width) {
-                // Check if the neighboring cell is a mine
+                // Sprawdzanie czy jest miną
                 if (board->board[newRow][newCol].isMine) {
                     count++;
                 }
@@ -104,6 +104,7 @@ int get_number_of_adjacent_mines(int row, int col, board_t* board) {
     return count;
 }
 
+
 bool is_valid_move(board_t* board, int moveRow, int moveCol){
     if(moveRow >= 0 && moveRow < board->height && moveCol >= 0 && moveCol < board->width){
         return true;
@@ -111,6 +112,8 @@ bool is_valid_move(board_t* board, int moveRow, int moveCol){
         return false;
     }
 }
+
+
 
 int check_game_finished(board_t* board){
     int usedFields = 0;
@@ -123,7 +126,8 @@ int check_game_finished(board_t* board){
             }
         }
     }
-    if(usedFields == (board->width * board->height)-board->numOfMines){ //jeżeli liczba pól odkrytych i oznaczonych flagą jest równa liczbie pól na planszy - liczbie min
+    //jeżeli liczba pól odkrytych i oznaczonych flagą jest równa liczbie pól na planszy
+    if(usedFields == (board->width * board->height)){ 
         return WIN;
     } else {
         return CONTINUE;

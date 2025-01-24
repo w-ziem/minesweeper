@@ -32,7 +32,7 @@ board_t* init_board(difficulty_t difficulty){
             break;
         case CUSTOM:
             printf("Podano niestandardową trudność. Wynik nie będzie naliczny.\n");
-            printf("Podaj niestandardowe wymiary planszy: (szerokość wysokość liczba_min)");
+            printf("Podaj niestandardowe wymiary planszy: (szerokość wysokość liczba_min): ");
             scanf("%d %d %d", &width, &height, &mines);
             board->width  = width;
             board->height = height;

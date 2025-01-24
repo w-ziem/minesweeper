@@ -1,5 +1,5 @@
 game: main.o engine.o game.o score.o board.o readingFromFile.o
-	gcc main.o engine.o game.o score.o board.o readingFromFile.o -Wextra -Wall -pedantic -o game 
+	gcc main.o engine.o game.o score.o board.o readingFromFile.o -Wextra -Wall -fsanitize=leak -pedantic -o game 
 	touch scores.txt
 
 main.o: main.c game.h engine.h score.h board.h readingFromFile.h

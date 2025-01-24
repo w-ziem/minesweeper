@@ -49,11 +49,8 @@ int main(int argc, char** argv) {
         clear_screen();
         display_board(board);
 
-        // Zakończenie gry i wyświetlenie wyniku
+        // Zakończenie gry, wyświetlenie wyniku oraz zwalnianie zaalokowanej dla sturktur pamięci
         end_game(board, game_status, playerName, chosenDifficulty);
-
-        // Zwolnienie pamięci używanej przez planszę
-        free_board(board);
     }
 
     return EXIT_SUCCESS; // Program zakończył się pomyślnie
