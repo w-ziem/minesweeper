@@ -1,4 +1,5 @@
 #include "score.h"
+#include "board.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -28,8 +29,6 @@ void calculate_score(difficulty_t difficulty, board_t* board){
 }
 
 
-
-
 void save_score(char* playerName, int score){
     to_upper_case(playerName);
     FILE *file;
@@ -50,7 +49,7 @@ void save_score(char* playerName, int score){
 
 
     //przeszukuje plik z wynikami w celu znalezienia wyniku dla aktualnego gracza
-    int found = 0;
+    bool found = false;
     while (fgets(line, sizeof(line), file)) {
         char existingPlayer[256];
         int existingScore;
@@ -59,10 +58,10 @@ void save_score(char* playerName, int score){
         if (strcmp(existingPlayer, playerName) == 0) {
             int newScore;
             newScore = existingScore + score;
-            found = 1;
+            found = true;
             fprintf(tempFile, "%s %d\n", existingPlayer, newScore);
         } else{
-            fprintf(tempFile, "%s %d", existingPlayer, existingScore);
+            fprintf(tempFile, "%s %d\n", existingPlayer, existingScore);
         }
     }
 
